@@ -325,6 +325,7 @@ namespace Mosa.Tool.Launcher
 			Settings.SetValue("Launcher.PlugKorlib", true);
 			Settings.SetValue("Launcher.HuntForCorLib", true);
 			Settings.SetValue("Linker.Drawf", false);
+			Settings.SetValue("Compiler.OsName", "MOSA");
 		}
 
 		private void UpdateInterfaceAppLocations()
@@ -373,6 +374,7 @@ namespace Mosa.Tool.Launcher
 			Settings.SetValue("Optimizations.Platform", cbPlatformOptimizations.Checked);
 			Settings.SetValue("Optimizations.LoopInvariantCodeMotion", cbLoopInvariantCodeMotion.Checked);
 			Settings.SetValue("Launcher.Launch", true);
+			Settings.SetValue("Compiler.OsName", tbOSName.Text);
 
 			try
 			{
@@ -533,6 +535,7 @@ namespace Mosa.Tool.Launcher
 
 			//lbSourceDirectory.Text = (filename != null) ? Path.GetDirectoryName(filename) : string.Empty;
 			lbSource.Text = (filename != null) ? Path.GetFileName(filename) : string.Empty;
+			tbOSName.Text = Settings.GetValue("Compiler.OsName");
 		}
 
 		private void btnCompileAndRun_Click(object sender, EventArgs e)

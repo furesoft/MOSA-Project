@@ -402,13 +402,13 @@ namespace Mosa.Utility.Launcher
 			if (LauncherSettings.ImageBootLoader == "grub0.97")
 			{
 				loader = "boot/grub/stage2_eltorito";
-				File.WriteAllBytes(Path.Combine(isoDirectory, "boot", "grub", "stage2_eltorito"), GetResource(@"grub\0.97", "stage2_eltorito"));
-				File.WriteAllBytes(Path.Combine(isoDirectory, "boot", "grub", "menu.lst"), GetResource(@"grub\0.97", "menu.lst"));
+				File.WriteAllBytes(Path.Combine(isoDirectory, "boot", "grub", "stage2_eltorito"), GetBootConfig(@"grub\0.97", "stage2_eltorito"));
+				File.WriteAllBytes(Path.Combine(isoDirectory, "boot", "grub", "menu.lst"), GetBootConfig(@"grub\0.97", "menu.lst"));
 			}
 			else if (LauncherSettings.ImageBootLoader == "grub2.00")
 			{
 				loader = "boot/grub/i386-pc/eltorito.img";
-				File.WriteAllBytes(Path.Combine(isoDirectory, "boot", "grub", "grub.cfg"), GetResource(@"grub\2.00", "grub.cfg"));
+				File.WriteAllBytes(Path.Combine(isoDirectory, "boot", "grub", "grub.cfg"), GetBootConfig(@"grub\2.00", "grub.cfg"));
 
 				Directory.CreateDirectory(Path.Combine(isoDirectory, "boot", "grub", "i386-pc"));
 
@@ -425,6 +425,16 @@ namespace Mosa.Utility.Launcher
 			var arg = $"-relaxed-filenames -J -R -o {Quote(LauncherSettings.ImageFile)} -b {Quote(loader)} -no-emul-boot -boot-load-size 4 -boot-info-table {Quote(isoDirectory)}";
 
 			LaunchApplication(LauncherSettings.Mkisofs, arg, true);
+		}
+
+		private byte[] GetBootConfig(string path, string filename)
+		{
+			var resource = GetResource(path, filename);
+			var osname = LauncherSettings.OsName;
+
+			var replaced = Encoding.ASCII.GetString(resource).Replace("MOSA", osname);
+
+			return Encoding.ASCII.GetBytes(replaced);
 		}
 
 		private void CreateVMDK(string source)

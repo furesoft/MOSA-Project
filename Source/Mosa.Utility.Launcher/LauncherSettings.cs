@@ -24,6 +24,12 @@ namespace Mosa.Utility.Launcher
 			set { Settings.SetValue("Compiler.BaseAddress", value); }
 		}
 
+		public string OsName
+		{
+			get { return Settings.GetValue("Compiler.OsName", "MOSA"); }
+			set { Settings.SetValue("Compiler.OsName", value); }
+		}
+
 		public string Bochs
 		{
 			get { return Settings.GetValue("AppLocation.Bochs", null); }
